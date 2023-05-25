@@ -60,7 +60,7 @@ $id = $_SESSION['user_id'];
                             </a>
                         </li>
                         <li>
-                            <a href="<?= baseURL . 'dashboard/article/list.php' ?>" class="nav-link text-white <?= str_contains($_SERVER['SCRIPT_NAME'], 'dashboard/article') ? 'active' : '' ?>">
+                            <a href="<?= baseURL . 'dashboard/event/list.php' ?>" class="nav-link text-white <?= str_contains($_SERVER['SCRIPT_NAME'], 'dashboard/article') ? 'active' : '' ?>">
                                 <i data-feather="file-text" class="me-3"></i>
                                 My Event
                             </a>

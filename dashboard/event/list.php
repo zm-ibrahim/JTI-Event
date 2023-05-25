@@ -2,6 +2,7 @@
 include '../templates/header.php';
 include '../../connect.php';
 // var_dump($query);
+$userid = $_SESSION['user_id'];
 ?>
 
 <h1>My Article</h1>
@@ -20,8 +21,9 @@ if (isset($_SESSION['flash_message'])) { ?>
         <thead>
             <tr>
                 <th scope="col">No</th>
-                <th scope="col">Title</th>
-                <th scope="col">Category</th>
+                <th scope="col">Nama Kegiatan</th>
+                <th scope="col">Mulai</th>
+                <th scope="col">Selesai</th>
                 <th scope="col">Action</th>
             </tr>
             <?php
@@ -39,8 +41,13 @@ if (isset($_SESSION['flash_message'])) { ?>
             $next = $halaman + 1;
 
             // Get actual rows of data
-            $sql = "SELECT article_id, a.title, c.name AS category FROM article a
-        JOIN category c ON(a.category_id = c.id) WHERE user_id =$id";
+            if ((isset($role) && $role == 2)) {
+                $sql = "SELECT id, nama, waktu_mulai, waktu_akhir FROM kegiatan";
+            } else {
+                $sql = "SELECT k.*
+                FROM kegiatan AS k
+                JOIN kegiatan_user AS ku ON k.id = ku.kegiatan_id";
+            }
             $data = mysqli_query($connect, $sql);
             $jumlah_data = mysqli_num_rows($data);
             $total_halaman = ceil($jumlah_data / $batas);
@@ -56,19 +63,33 @@ if (isset($_SESSION['flash_message'])) { ?>
             ?>
                     <tr>
                         <th scope="row"><?= $i ?></th>
-                        <td><?= $article['title'] ?></td>
-                        <td><?= $article['category'] ?></td>
+                        <td><?= $article['nama'] ?></td>
+                        <td><?= $article['waktu_mulai'] ?></td>
+                        <td><?= $article['waktu_akhir'] ?></td>
                         <td>
-                            <!-- a_id means article_id -->
-                            <a href="view.php?a_id=<?= $article['article_id'] ?>" class="badge bg-info">
-                                <i data-feather="eye"></i>
-                            </a>
-                            <a href="edit.php?a_id=<?= $article['article_id'] ?>" class="badge bg-warning">
-                                <i data-feather="edit"></i>
-                            </a>
-                            <a href="../process/deleteArticle.php?a_id=<?= $article['article_id'] ?>" class="badge bg-danger">
-                                <i data-feather="trash-2"></i>
-                            </a>
+                            <?php
+                            if ((isset($role) && $role == 2)) {
+                            ?>
+                                <!-- kid means kegiatan id -->
+                                <a href="view.php?kid=<?= $article['id'] ?>" class="badge bg-info">
+                                    <i data-feather="eye"></i>
+                                </a>
+                                <a href="edit.php?kid=<?= $article['id'] ?>" class="badge bg-warning">
+                                    <i data-feather="edit"></i>
+                                </a>
+                                <a href="../process/deleteEvent.php?kid=<?= $article['id'] ?>" class="badge bg-danger">
+                                    <i data-feather="trash-2"></i>
+                                </a>
+                            <?php
+                            } else {
+                            ?>
+                                <!-- kid means kegiatan id -->
+                                <a href="view.php?kid=<?= $article['id'] ?>" class="badge bg-info">
+                                    <i data-feather="eye"></i>
+                                </a>
+                            <?php
+                            }
+                            ?>
                         </td>
                     </tr>
             <?php
