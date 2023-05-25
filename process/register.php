@@ -6,14 +6,15 @@ $userid = rand(-2147483648, 2147483647);
 
 // Cek apakah data ada ?
 if (isset($_POST['register'])) {
-
     // Collect Input
+    $name = $_POST['name'];
+    $alamat = $_POST['alamat'];
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
     $query = "INSERT into `user` (id, username, email, nama, alamat, password)
-    VALUES ('$id','$username','$email','$name','$alamat','$password')";
+    VALUES ('$userid','$username','$email','$name','$alamat','$password')";
     session_start();
     try {
         mysqli_query($connect, $query);
