@@ -1,3 +1,16 @@
+<?php
+// Session Check
+session_start();
+include 'connect.php';
+$cek = 0;
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+    $role = $_SESSION['role'];
+    $cek = 1;
+    $id = $_SESSION['user_id'];
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
