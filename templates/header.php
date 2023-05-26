@@ -24,7 +24,7 @@ if (isset($_SESSION['username'])) {
         $title = mysqli_query($connect, "SELECT nama FROM kegiatan WHERE id=$kid");
         $title = $title->fetch_assoc();
     ?>
-        <title><?= $title['title'] ?> | JTI Event</title>
+        <title><?= $title['nama'] ?> | JTI Event</title>
     <?php
     } else {
     ?>

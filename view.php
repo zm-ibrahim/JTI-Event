@@ -1,6 +1,6 @@
 <?php
 include 'templates/header.php';
-$a_id = $_GET['idk'];
+$kid = $_GET['kid'];
 
 $sql = "SELECT nama, konten, img, waktu_mulai, waktu_akhir FROM kegiatan AS k";
 $article = mysqli_query($connect, $sql);

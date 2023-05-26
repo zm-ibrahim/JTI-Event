@@ -2,8 +2,8 @@
 include '../../connect.php';
 include '../templates/header.php';
 
-$a_id = $_GET['a_id'];
-$query = "SELECT title, img, user_id, content, `timestamp` FROM article WHERE article_id=$a_id LIMIT 1";
+$kid = $_GET['kid'];
+$query = "SELECT nama, img, konten, waktu_awal, waktu_akhir FROM kegiatan WHERE id=$kid LIMIT 1";
 $article = mysqli_query($connect, $query);
 $article = $article->fetch_assoc(); //return nilai dalam bentuk array associative
 
