@@ -54,7 +54,7 @@
                                 <a class="fs-4 card-title text-decoration-none text-capitalize" href="view.php?kid=<?= $article['id'] ?>"><?= $article['nama'] ?></a>
                                 <br>
                                 <!-- <h5 class="card-title">/h5> -->
-                                <small class="card-text text-muted">Waktu Mulai : <?= $article['start'] ?> Waktu Akhir <?= $article['akhir'] ?></small>
+                                <small class="card-text text-muted">Waktu Mulai : <?= $article['start'] ?> <br> Waktu Akhir <?= $article['end'] ?></small>
                                 <p class="card-text"><?= $excerpt ?></p>
                                 <a href="view.php?kid=<?= $article['id'] ?>">Read More</a>
                             </div>

@@ -9,7 +9,7 @@ $article = $article->fetch_assoc();
 <main class="container mt-4">
     <section class="row justify-content-center">
         <div class="col-md-8">
-            <h2 class="mb-4 text-center text-capitalize"><?= $article['nama'] ?></h2>
+            <h2 class="mb-4 text-capitalize"><?= $article['nama'] ?></h2>
             <?php
             if ($article['img'] != '') { ?>
                 <div class="d-flex align-items-center">

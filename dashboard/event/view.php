@@ -3,28 +3,28 @@ include '../../connect.php';
 include '../templates/header.php';
 
 $kid = $_GET['kid'];
-$query = "SELECT nama, img, konten, waktu_awal, waktu_akhir FROM kegiatan WHERE id=$kid LIMIT 1";
+$query = "SELECT nama, img, logo, konten, waktu_awal, waktu_akhir FROM kegiatan WHERE id=$kid LIMIT 1";
 $article = mysqli_query($connect, $query);
 $article = $article->fetch_assoc(); //return nilai dalam bentuk array associative
 
 // Checking role for viewing
-if ($role != 1) {
-    // Throw if this isn't the user's article
-    if ($id != $article['user_id']) {
-        header('Location: ' . baseURL . 'dashboard');
-    }
-} else {
-    if (isset($_GET['userpost'])) {
-        // Getting author's username 
-        $userpost = $_GET['userpost'];
-        echo "<strong>Showing article by $userpost </strong>";
-    }
-}
+// if ($role != 2) {
+//     // Throw if this isn't the user's article
+//     if ($id != $article['user_id']) {
+//         header('Location: ' . baseURL . 'dashboard');
+//     }
+// } else {
+//     if (isset($_GET['userpost'])) {
+//         // Getting author's username 
+//         $userpost = $_GET['userpost'];
+//         echo "<strong>Showing article by $userpost </strong>";
+//     }
+// }
 
 ?>
 
 <div class="col-lg-9">
-    <h1><?= $article['title'] ?></h1>
+    <h1><?= $article['nama'] ?></h1>
     <hr>
 
     <?php if ($article['img'] != '') { ?>
@@ -33,7 +33,7 @@ if ($role != 1) {
     } ?>
 
     <article class="my-3">
-        <?= $article['content'] ?>
+        <?= $article['konten'] ?>
     </article>
 </div>
 </article>

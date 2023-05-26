@@ -5,7 +5,7 @@ include '../../connect.php';
 $userid = $_SESSION['user_id'];
 ?>
 
-<h1>My Article</h1>
+<h1>My Event</h1>
 <hr>
 <?php
 if (isset($_SESSION['flash_message'])) { ?>
