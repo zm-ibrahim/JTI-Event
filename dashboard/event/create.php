@@ -12,13 +12,13 @@
             <label for="img" class="form-label">Image</label>
             <input name="file" class="form-control" type="file" id="img" accept="image/png, image/gif, image/jpeg, image/webp">
             <!-- image preview -->
-            <img class="img-fluid col-sm-9 mt-3 image-preview" src="" alt="">
+            <img class="img-fluid col-sm-9 mt-3 img-preview" src="" alt="">
         </div>
         <div class="mb-3">
             <label for="logo" class="form-label">Logo Sertif</label>
             <input name="file" class="form-control" type="file" id="logo" accept="image/png, image/gif, image/jpeg, image/webp">
             <!-- image preview -->
-            <img class="img-fluid col-sm-9 mt-3 image-preview" src="" alt="">
+            <img class="img-fluid col-sm-9 mt-3 logo-preview" src="" alt="">
         </div>
         <div class="mb-3">
             <label for="" class="form-label">Waktu Mulai</label>
@@ -48,24 +48,27 @@
 </main>
 </div>
 <script>
-    document.addEventListener('trix-file-accept', (e) => e.preventDefault())
+    document.addEventListener('trix-file-accept', (e) => e.preventDefault());
 
     $(document).ready(() => {
         $('#img').change(() => {
-            const file = $('#img').prop('files')[0]
-            const file2 = $('#logo').prop('files')[0]
+            const file = $('#img').prop('files')[0];
             if (file) {
-                let reader = new FileReader()
-                reader.onload = (event) => $('.image-preview').attr('src', event.target.result)
-                reader.readAsDataURL(file)
+                let reader = new FileReader();
+                reader.onload = (event) => $('.img-preview').attr('src', event.target.result);
+                reader.readAsDataURL(file);
             }
-            if (file2) {
-                let reader = new FileReader()
-                reader.onload = (event) => $('.image-preview').attr('src', event.target.result)
-                reader.readAsDataURL(file2)
+        });
+
+        $('#logo').change(() => {
+            const file = $('#logo').prop('files')[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = (event) => $('.logo-preview').attr('src', event.target.result);
+                reader.readAsDataURL(file);
             }
-        })
-    })
+        });
+    });
 </script>
 
 <?php include '../templates/footer.php' ?>

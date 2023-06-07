@@ -17,8 +17,6 @@ if (isset($_POST['login'])) {
     list($id, $username, $password, $role) = mysqli_fetch_array($sql);
 
     // Jika data ditemukan dalam database, maka akan melakukan validasi dengan password_verify.
-    // $userpass -----> diambil dari password yang diinputkan user lewat form login
-    // $password -----> diambil dari password dalam database
     if (mysqli_num_rows($sql) > 0 && password_verify($userpass, $password)) {
         $_SESSION['username'] = $username;
         $_SESSION['user_id'] = $id;
@@ -30,8 +28,9 @@ if (isset($_POST['login'])) {
         die();
     } else {
         // memberikan flash message
-        $_SESSION['flash_message'] = ['Looks like your username / password wrong!', 'danger'];
+        $_SESSION['flash_message'] = ['Looks like your username / password is wrong!', 'danger'];
         mysqli_close($connect);
         header("Location: ../login.php");
+        die();
     }
 }

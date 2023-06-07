@@ -1,7 +1,7 @@
 <?php
-include '../../connect.php';
-define('baseURL', explode('dashboard', $_SERVER['REQUEST_URI'])[0]);
 session_start();
+include '../../connect.php';
+
 $kid = $_GET['kid'];
 $userid = $_SESSION['user_id'];
 
@@ -9,44 +9,37 @@ if (isset($_GET['true'])) {
     $role = $_GET['true'];
 }
 
-// Get userid and article id
-$sql = "SELECT * from kegiatan WHERE id=$kid";
-$call = (mysqli_query($connect, $sql));
-$user = mysqli_fetch_assoc($call);
-$usid = $user['user_id'];
-$username = $user['username'];
+// Get user ID and article ID
+$sql = "SELECT * FROM kegiatan WHERE id = $kid";
+$result = mysqli_query($connect, $sql);
+$kegiatan = mysqli_fetch_assoc($result);
+$usid = $kegiatan['user_id'];
+$username = $kegiatan['username'];
 
-// Checking Permission
-if ((isset($role) && $role == 2)) {
-    // delete old image
-    $sql = "SELECT img FROM kegiatan WHERE id=$kid";
-    $file = mysqli_query($connect, $sql);
-    $file = $file->fetch_assoc();
+// Checking permission
+if ((isset($_SESSION['role']) && $_SESSION['role'] == 2) || $userid == $usid) {
+    // Delete related rows in kegiatan_user table
+    $deleteRelatedRows = "DELETE FROM kegiatan_user WHERE kegiatan_id = $kid";
+    mysqli_query($connect, $deleteRelatedRows);
 
-    if ($file['img'] != '') {
-        $file_name = basename($file['img'], '?' . $_SERVER['QUERY_STRING']);
+    // Delete old image
+    $img = $kegiatan['img'];
+    if (!empty($img)) {
+        $file_name = basename($img);
         unlink('../../img/kegiatan/' . $file_name);
     }
 
-    $sql = "SELECT logo FROM kegiatan WHERE id=$kid";
-    $file = mysqli_query($connect, $sql);
-    $file = $file->fetch_assoc();
-    if ($file['logo'] != '') {
-        $file_name = basename($file['img'], '?' . $_SERVER['QUERY_STRING']);
-        unlink('../../img/sertif/' . $file_name);
+    // Delete event
+    $deleteEvent = "DELETE FROM kegiatan WHERE id = $kid";
+    if (mysqli_query($connect, $deleteEvent)) {
+        $_SESSION['flash_message'] = ['Event deleted successfully', 'success'];
+    } else {
+        $_SESSION['flash_message'] = ['Failed to delete event!', 'danger'];
     }
-
-    //delete event
-    $sql = "DELETE FROM kegiatan WHERE id=$kid";
-    if (mysqli_query($connect, $sql)) $_SESSION['flash_message'] = ['Event deleted succesfully', 'success'];
-    else $_SESSION['flash_message'] = ['Cant delete event!', 'danger'];
-
-    //delete event from saved
-    $sql = "DELETE FROM kegiatanuser WHERE kegiatan=$kid";
-    if (mysqli_query($connect, $sql)) $_SESSION['flash_message'] = ['Event deleted succesfully', 'success'];
-    else $_SESSION['flash_message'] = ['Cant delete event!', 'danger'];
-} else $_SESSION['flase_message'] = ['You dont have permission to delete this event!', 'danger'];
+} else {
+    $_SESSION['flash_message'] = ['You don\'t have permission to delete this event!', 'danger'];
+}
 
 mysqli_close($connect);
-if ($role == 2) header("Location: ../event/list.php");
-else header("Location: ../event/list.php");
+header("Location: ../event/list.php");
+exit();

@@ -4,65 +4,67 @@ define('baseURL', explode('dashboard', $_SERVER['REQUEST_URI'])[0]);
 session_start();
 
 if (isset($_POST['submit'])) {
-   $title = $_POST['title'];
-   $category = $_POST['category'];
-   $content = $_POST['content'];
-   $id = $_SESSION['user_id'];
-   $a_id = $_POST['a_id'];
+   $id = $_POST['id']; // Assuming you have an input field with the name 'id' to identify the record to update
+   $title = $_POST['nama'];
+   $img = $_POST['img'];
+   $logo = $_POST['logo'];
+   $content = $_POST['konten'];
+   $start = $_POST['waktu_mulai'];
+   $end = $_POST['waktu_akhir'];
 
-   $sql = "SELECT img FROM article WHERE article_id=$a_id";
-   $file = mysqli_query($connect, $sql);
-   $file = $file->fetch_assoc();
-
-   if ($_FILES['file']['name'] != '' && $title != '') { // is user upload an image?
-      //delete old image
-      if ($file['img'] != '') {
-         $file_name = basename($file['img'], '?' . $_SERVER['QUERY_STRING']);
-         unlink('../../img/article/' . $file_name);
-      }
-
+   if ($_FILES['file']['name'] != '' && $title != '') {
       // Image Cek
       $image = "img" . rand(-2147483648, 2147483647) . "." . pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
-      $target_dir = "../../img/article/";
+      $logo = "logo" . rand(-2147483648, 2147483647) . "." . pathinfo($_FILES['logo']['name'], PATHINFO_EXTENSION);
+      $target_dir = "../../img/event/";
+      $logo_dir = "../../img/sertif/";
       $target_file = $target_dir . basename($_FILES["file"]["name"]);
+      $logo_file = $logo_dir . basename($_FILES["logo"]["name"]);
 
-      // Select file type
+      // Select file types
       $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+      $logoFileType = strtolower(pathinfo($logo_file, PATHINFO_EXTENSION));
 
       // Valid file extensions
       $extensions_arr = array("jpg", "jpeg", "png", "gif", "webp");
 
-      // Check extension
+      // Check image extension
       if (in_array($imageFileType, $extensions_arr)) {
-         // Upload file
+         // Upload image file
          if (move_uploaded_file($_FILES['file']['tmp_name'], $target_dir . $image)) {
-            // Submit data
-            $image = baseURL . 'img/article/' . $image;
+            // Check logo extension
+            if (in_array($logoFileType, $extensions_arr)) {
+               // Upload logo file
+               if (move_uploaded_file($_FILES['logo']['tmp_name'], $logo_dir . $logo)) {
+                  // Update data
+                  $image = baseURL . 'img/event/' . $image;
+                  $logo = baseURL . 'img/sertif/' . $logo;
+                  $stmt = $connect->prepare("UPDATE kegiatan SET nama = ?, img = ?, logo = ?, konten = ?, waktu_mulai = ?, waktu_akhir = ? WHERE id = ?");
 
-            $stmt = $connect->prepare("UPDATE article SET title=?, category_id=?, img=?, content=? WHERE article_id=?");
-            $stmt->bind_param("sissi", $title, $category, $image, $content, $a_id);
-            $stmt->execute();
+                  $stmt->bind_param("sssiisi", $title, $image, $logo, $content, $start, $end, $id);
+                  $stmt->execute();
 
-            $_SESSION['flash_message'] = ['Successfully updated article!', 'success'];
-         } else $_SESSION['flash_message'] = ['Cant upload file!', 'danger'];
-      } else $_SESSION['flash_message'] = ['Can only upload image file!', 'danger'];
-   } else if ($title != '') {
-      if($file['img'] != '' && isset($_POST['del_img'])){ //old image exist, and user want to delete it
-         //delete old image
-         $file_name = basename($file['img'], '?' . $_SERVER['QUERY_STRING']);
-         unlink('../../img/article/' . $file_name);
-
-         $stmt = $connect->prepare("UPDATE article SET title=?, category_id=?, img='', content=? WHERE article_id=?");
-
-      } else{ //old image exist, user don't want to delete || old image dont exist
-         $stmt = $connect->prepare("UPDATE article SET title=?, category_id=?, content=? WHERE article_id=?");
+                  $_SESSION['flash_message'] = ['Successfully update event!', 'success'];
+               } else {
+                  $_SESSION['flash_message'] = ['Failed to upload the logo file!', 'danger'];
+               }
+            } else {
+               $_SESSION['flash_message'] = ['Invalid logo file extension!', 'danger'];
+            }
+         } else {
+            $_SESSION['flash_message'] = ['Failed to upload the image file!', 'danger'];
+         }
+      } else {
+         $_SESSION['flash_message'] = ['Invalid image file extension!', 'danger'];
       }
-      $stmt->bind_param("sisi", $title, $category, $content, $a_id);
-      $stmt->execute();
-      $_SESSION['flash_message'] = ['Successfully updated article!', 'success'];
-   }
+   } else if ($title != '') {
+      $stmt = $connect->prepare("UPDATE kegiatan SET nama = ?, konten = ?, waktu_mulai = ?, waktu_akhir = ? WHERE id = ?");
 
+      $stmt->bind_param("ssiis", $title, $content, $start, $end, $id);
+      $stmt->execute();
+
+      $_SESSION['flash_message'] = ['Successfully update article!', 'success'];
+   }
    mysqli_close($connect);
-   var_dump($_POST['del_img']);
-   header("Location: ../article/list.php");
+   header('location: ../event/list.php');
 }
