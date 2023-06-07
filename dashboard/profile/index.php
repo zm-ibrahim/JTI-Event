@@ -5,9 +5,18 @@ include '../../connect.php';
 $sql = "SELECT * FROM user WHERE id=$id";
 $profile = mysqli_query($connect, $sql);
 $profile = $profile->fetch_assoc();
+if ($role == 0) {
+    $peran = "Peserta";
+} else if ($role == 1) {
+    $peran = "Penilai";
+} else if ($role == 2) {
+    $peran = "Admin";
+}
+
 ?>
 
 <h1>Profile</h1>
+<h6><?= $peran ?></h6>
 <hr>
 <div class="row">
     <form action="../process/editProfile.php" method="post" class="col-xl-7">
