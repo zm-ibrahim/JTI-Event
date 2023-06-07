@@ -101,7 +101,13 @@ if (isset($_SESSION['flash_message'])) { ?>
     </table>
 </div>
 
-<a class="btn btn-success" href="create.php">Create New Article</a>
+<?php
+if ((isset($role) && $role == 2)) {
+?>
+    <a class="btn btn-success" href="create.php">Create New Article</a>
+<?php
+}
+?>
 <!-- Pagination Module -->
 <nav>
     <ul class="pagination justify-content-center">
