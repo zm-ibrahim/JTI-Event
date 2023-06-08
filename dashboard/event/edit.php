@@ -22,7 +22,7 @@ $end = $event['waktu_akhir'];
 <h1 class="tes">Update Kegiatan</h1>
 <hr>
 <div class="row">
-    <form action="../process/updateEvent.php" method="post" enctype="multipart/form-data" class="col-lg-9">
+    <form action="../process/updateArticle.php" method="post" enctype="multipart/form-data" class="col-lg-9">
         <div class="mb-3">
             <label for="name" class="form-label">Judul Kegiatan</label>
             <input name="name" type="text" class="form-control" id="name" placeholder="Masukkan Judul" required value="<?= $title ?>">

@@ -21,21 +21,39 @@ $article = $article->fetch_assoc();
                     <?= $article['konten'] ?>
                 </article>
                 <hr>
-                <?php
-                if ((isset($role) && $role == 0)) {
-                ?>
-                    <a class="btn btn-success" href="process/enroll.php">Ikuti</a>
-                <?php
-                } else {
-                ?>
+                <?php if ((isset($_SESSION['role']) && $_SESSION['role'] == 0)) { ?>
+                    <button class="btn btn-success" onclick="enroll()">Ikuti</button>
+                <?php } else { ?>
                     <small>Anda harus membuat akun peserta untuk dapat mengikuti kegiatan</small>
-                <?php
-                }
-                ?>
+                <?php } ?>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    function enroll() {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'process/enroll.php',
+                            data: {
+                                kid: '<?= $kid ?>'
+                            },
+                            success: function(response) {
+                                // Handle the response here
+                                if (response === 'success') {
+                                    alert('Enrollment successful!');
+                                } else if (response === 'already_enrolled') {
+                                    alert('You are already enrolled in this activity.');
+                                } else {
+                                    alert('Enrollment failed. Please try again.');
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                // Handle the error here
+                                console.log(error);
+                            }
+                        });
+                    }
+                </script>
             </div>
         </div>
     </section>
-
 </main>
-
 <?php include 'templates/footer.php' ?>
