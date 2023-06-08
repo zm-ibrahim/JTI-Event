@@ -10,29 +10,31 @@
         </div>
         <div class="mb-3">
             <label for="img" class="form-label">Image</label>
-            <input name="file" class="form-control" type="file" id="img" accept="image/png, image/gif, image/jpeg, image/webp">
+            <input name="img" class="form-control" type="file" id="img" accept="image/png, image/gif, image/jpeg, image/webp">
             <!-- image preview -->
             <img class="img-fluid col-sm-9 mt-3 img-preview" src="" alt="">
         </div>
         <div class="mb-3">
             <label for="logo" class="form-label">Logo Sertif</label>
-            <input name="file" class="form-control" type="file" id="logo" accept="image/png, image/gif, image/jpeg, image/webp">
+            <input name="logo" class="form-control" type="file" id="logo" accept="image/png, image/gif, image/jpeg, image/webp">
             <!-- image preview -->
             <img class="img-fluid col-sm-9 mt-3 logo-preview" src="" alt="">
         </div>
         <div class="mb-3">
             <label for="" class="form-label">Waktu Mulai</label>
+            <br>
             <label class="form-label">Date:</label>
-            <input type="date" name="tanggal-mulai" class="form-control" />
+            <input type="date" name="tanggal-mulai" class="form-control" required />
             <label class="form-label">Time:</label>
-            <input type="time" name="waktu-mulai" class="form-control" />
+            <input type="time" name="waktu-mulai" class="form-control" required />
         </div>
         <div class="mb-3">
             <label for="" class="form-label">Waktu Akhir</label>
+            <br>
             <label class="form-label">Date:</label>
-            <input type="date" name="tanggal-akhir" class="form-control" />
+            <input type="date" name="tanggal-akhir" class="form-control" required />
             <label class="form-label">Time:</label>
-            <input type="time" name="waktu-akhir" class="form-control" />
+            <input type="time" name="waktu-akhir" class="form-control" required />
         </div>
         <div class="mb-3">
             <label for="text" class="form-label">Content</label>

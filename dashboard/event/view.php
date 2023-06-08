@@ -3,7 +3,7 @@ include '../../connect.php';
 include '../templates/header.php';
 
 $kid = $_GET['kid'];
-$query = "SELECT nama, img, logo, konten, waktu_awal, waktu_akhir FROM kegiatan WHERE id=$kid LIMIT 1";
+$query = "SELECT nama, img, logo, konten, waktu_mulai, waktu_akhir FROM kegiatan WHERE id=$kid LIMIT 1";
 $article = mysqli_query($connect, $query);
 $article = $article->fetch_assoc(); //return nilai dalam bentuk array associative
 

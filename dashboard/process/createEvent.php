@@ -15,9 +15,9 @@ if (isset($_POST['submit'])) {
    $start_datetime = date('Y-m-d H:i:s', strtotime("$start_date $start_time"));
    $end_datetime = date('Y-m-d H:i:s', strtotime("$end_date $end_time"));
 
-   if ($_FILES['file']['name'] != '' && $title != '') {
+   if ($_FILES['img']['name'] != '' && $title != '') {
       // Image Check
-      $image = "img" . rand(-2147483648, 2147483647) . "." . pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+      $image = "img" . rand(-2147483648, 2147483647) . "." . pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
       $target_dir = "../../img/event/";
       $target_file = $target_dir . $image;
 
@@ -28,7 +28,7 @@ if (isset($_POST['submit'])) {
       $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
       if (in_array($imageFileType, $extensions_arr)) {
          // Upload image file
-         if (move_uploaded_file($_FILES['file']['tmp_name'], $target_file)) {
+         if (move_uploaded_file($_FILES['img']['tmp_name'], $target_file)) {
             $image = baseURL . 'img/event/' . $image;
 
             // Logo Check
