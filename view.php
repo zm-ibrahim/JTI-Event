@@ -25,15 +25,15 @@ $isStarted = ($currentDateTime >= $startDateTime);
                     <img class="card-img-top mr-3 mb-4" src="<?= $article['img'] ?>" alt="article image" style="height: auto; max-height: 300px; width: auto; max-width: 100%;">
                 <?php } ?>
             </div>
-            <div class="">
+            <div class="col-md-8">
                 <h2 class="mb-4 text-capitalize"><?= $article['nama'] ?></h2>
                 <small class="text-muted">Waktu Mulai: <?= $startDateTime->format('Y-m-d H:i:s') ?> | Selesai: <?= $endDateTime->format('Y-m-d H:i:s') ?></small>
-                <article class="my-3">
+                <div class="w-100">
                     <?= $article['konten'] ?>
-                </article>
+                </div>
                 <hr>
                 <?php if ((isset($_SESSION['role']) && $_SESSION['role'] == 0)) { ?>
-                    <button class="btn btn-success" onclick="enroll()">Ikuti</button>
+                    <button class=" btn btn-success" onclick="enroll()">Ikuti</button>
                     <?php if ($isStarted) { ?>
                         <script>
                             alert('Event already started.');

@@ -4,52 +4,74 @@ define('baseURL', explode('dashboard', $_SERVER['REQUEST_URI'])[0]);
 session_start();
 
 if (isset($_POST['submit'])) {
-   $id = $_POST['id']; // Assuming you have an input field with the name 'id' to identify the record to update
-   $title = $_POST['nama'];
-   $img = $_POST['img'];
-   $logo = $_POST['logo'];
+   $id = $_POST['id'];
+   $title = $_POST['name'];
    $content = $_POST['konten'];
-   $start = $_POST['waktu_mulai'];
-   $end = $_POST['waktu_akhir'];
+   $start_date = $_POST['tanggal-mulai'];
+   $start_time = $_POST['waktu-mulai'];
+   $end_date = $_POST['tanggal-akhir'];
+   $end_time = $_POST['waktu-akhir'];
 
-   if ($_FILES['file']['name'] != '' && $title != '') {
-      // Image Cek
-      $image = "img" . rand(-2147483648, 2147483647) . "." . pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
-      $logo = "logo" . rand(-2147483648, 2147483647) . "." . pathinfo($_FILES['logo']['name'], PATHINFO_EXTENSION);
+   // Combine date and time values into datetime strings
+   $start_datetime = date('Y-m-d H:i:s', strtotime("$start_date $start_time"));
+   $end_datetime = date('Y-m-d H:i:s', strtotime("$end_date $end_time"));
+
+   if ($_FILES['img']['name'] != '' && $title != '') {
+      // Image Check
+      $image = "img" . rand(-2147483648, 2147483647) . "." . pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
       $target_dir = "../../img/event/";
-      $logo_dir = "../../img/sertif/";
-      $target_file = $target_dir . basename($_FILES["file"]["name"]);
-      $logo_file = $logo_dir . basename($_FILES["logo"]["name"]);
-
-      // Select file types
-      $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-      $logoFileType = strtolower(pathinfo($logo_file, PATHINFO_EXTENSION));
+      $target_file = $target_dir . $image;
 
       // Valid file extensions
       $extensions_arr = array("jpg", "jpeg", "png", "gif", "webp");
 
       // Check image extension
+      $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
       if (in_array($imageFileType, $extensions_arr)) {
          // Upload image file
-         if (move_uploaded_file($_FILES['file']['tmp_name'], $target_dir . $image)) {
-            // Check logo extension
-            if (in_array($logoFileType, $extensions_arr)) {
-               // Upload logo file
-               if (move_uploaded_file($_FILES['logo']['tmp_name'], $logo_dir . $logo)) {
-                  // Update data
-                  $image = baseURL . 'img/event/' . $image;
-                  $logo = baseURL . 'img/sertif/' . $logo;
-                  $stmt = $connect->prepare("UPDATE kegiatan SET nama = ?, img = ?, logo = ?, konten = ?, waktu_mulai = ?, waktu_akhir = ? WHERE id = ?");
+         if (move_uploaded_file($_FILES['img']['tmp_name'], $target_file)) {
+            $image = baseURL . 'img/event/' . $image;
 
-                  $stmt->bind_param("sssiisi", $title, $image, $logo, $content, $start, $end, $id);
-                  $stmt->execute();
+            // Logo Check
+            if ($_FILES['logo']['name'] != '') {
+               $logo = "logo" . rand(-2147483648, 2147483647) . "." . pathinfo($_FILES['logo']['name'], PATHINFO_EXTENSION);
+               $logo_dir = "../../img/sertif/";
+               $logo_file = $logo_dir . $logo;
 
-                  $_SESSION['flash_message'] = ['Successfully update event!', 'success'];
+               // Check logo extension
+               $logoFileType = strtolower(pathinfo($logo_file, PATHINFO_EXTENSION));
+               if (in_array($logoFileType, $extensions_arr)) {
+                  // Upload logo file
+                  if (move_uploaded_file($_FILES['logo']['tmp_name'], $logo_file)) {
+                     $logo = baseURL . 'img/sertif/' . $logo;
+
+                     // Update data
+                     $stmt = $connect->prepare("UPDATE kegiatan SET nama=?, img=?, logo=?, konten=?, waktu_mulai=?, waktu_akhir=? WHERE id=?");
+
+                     $stmt->bind_param("ssssssi", $title, $image, $logo, $content, $start_datetime, $end_datetime, $id);
+                     $stmt->execute();
+
+                     $_SESSION['flash_message'] = ['Successfully update event!', 'success'];
+                     mysqli_close($connect);
+                     header('location: ../event/list.php');
+                     exit();
+                  } else {
+                     $_SESSION['flash_message'] = ['Failed to upload the logo file!', 'danger'];
+                  }
                } else {
-                  $_SESSION['flash_message'] = ['Failed to upload the logo file!', 'danger'];
+                  $_SESSION['flash_message'] = ['Invalid logo file extension!', 'danger'];
                }
             } else {
-               $_SESSION['flash_message'] = ['Invalid logo file extension!', 'danger'];
+               // Update data without logo
+               $stmt = $connect->prepare("UPDATE kegiatan SET nama=?, img=?, konten=?, waktu_mulai=?, waktu_akhir=? WHERE id=?");
+
+               $stmt->bind_param("sssssi", $title, $image, $content, $start_datetime, $end_datetime, $id);
+               $stmt->execute();
+
+               $_SESSION['flash_message'] = ['Successfully update event!', 'success'];
+               mysqli_close($connect);
+               header('location: ../event/list.php');
+               exit();
             }
          } else {
             $_SESSION['flash_message'] = ['Failed to upload the image file!', 'danger'];
@@ -58,13 +80,28 @@ if (isset($_POST['submit'])) {
          $_SESSION['flash_message'] = ['Invalid image file extension!', 'danger'];
       }
    } else if ($title != '') {
-      $stmt = $connect->prepare("UPDATE kegiatan SET nama = ?, konten = ?, waktu_mulai = ?, waktu_akhir = ? WHERE id = ?");
+      // Update data without image and logo
+      $stmt = $connect->prepare("UPDATE kegiatan SET nama=?, konten=?, waktu_mulai=?, waktu_akhir=? WHERE id=?");
 
-      $stmt->bind_param("ssiis", $title, $content, $start, $end, $id);
+      $stmt->bind_param("ssssi", $title, $content, $start_datetime, $end_datetime, $id);
       $stmt->execute();
 
-      $_SESSION['flash_message'] = ['Successfully update article!', 'success'];
+      $_SESSION['flash_message'] = ['Successfully update event!', 'success'];
+      mysqli_close($connect);
+      header('location: ../event/list.php');
+      exit();
+   } else {
+      $_SESSION['flash_message'] = ['Please provide a title!', 'danger'];
    }
-   mysqli_close($connect);
-   header('location: ../event/list.php');
+}
+
+// Retrieve existing data for editing
+if (isset($_GET['id'])) {
+   $id = $_GET['id'];
+   $stmt = $connect->prepare("SELECT * FROM kegiatan WHERE id=? LIMIT 1");
+   $stmt->bind_param("i", $id);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $event = $result->fetch_assoc();
+   $stmt->close();
 }
