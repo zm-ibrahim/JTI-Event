@@ -41,7 +41,7 @@ if (isset($_SESSION['username'])) {
 <body>
     <nav class="navbar navbar-dark navbar-expand-lg bg-dark sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="index.php">JTI <span class="text-info">Event</span></a>
+            <a class="navbar-brand" href="list.php">JTI <span class="text-info">Event</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>

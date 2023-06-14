@@ -1,10 +1,30 @@
 <?php
+include '../../connect.php';
+session_start();
+// get kegiatan id dan user id
 $kid = $_GET['kid'];
 $usid = $_GET['usid'];
-$query = "SELECT * FROM user WHERE id=$id LIMIT 1";
+$role = $_SESSION['role'];
+
+// Set
+if ($role == 1) {
+    $role = "Penilai";
+} else if ($role == 0) {
+    $role = "Peserta";
+}
+
+// Query untuk ambil user
+$sql = "SELECT * FROM user WHERE id=$usid";
+$profile = mysqli_query($connect, $sql);
+$profile = $profile->fetch_assoc();
+
+// Query untuk ambil kegiatan
 $query = "SELECT nama, img, logo, konten, waktu_mulai, waktu_akhir FROM kegiatan WHERE id=$kid LIMIT 1";
 $article = mysqli_query($connect, $query);
 $article = $article->fetch_assoc();
+
+$end = new DateTime($article['waktu_akhir']);
+$endDate = $end->format('Y-m-d');
 ?>
 <!DOCTYPE html>
 <html>
@@ -22,7 +42,7 @@ $article = $article->fetch_assoc();
         .container {
             width: auto;
             height: 716px;
-            background-image: url("img/bgsertif.png");
+            background-image: url("../../img/bgsertif.png");
             /* Add the background image */
             background-size: cover;
             /* Scale the background image to cover the entire container */
@@ -103,33 +123,52 @@ $article = $article->fetch_assoc();
             width: 100px;
             height: 100px;
         }
+
+        @page {
+            size: landscape;
+        }
+
+        header,
+        footer {
+            display: none;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet"> <!-- Add the Playfair Display font -->
 </head>
 
 <body>
     <?php
-    $nama = "Lukman Hakim";
-    $role = "Participant";
-    $judul = "Latihan UTBK";
-    $date = "20 May 2023";
-    $namattd = "Zaky Muhammad Ibrahim";
+    // $nama = "Lukman Hakim";
+    // $role = "Participant";
+    // $judul = "Latihan UTBK";
+    // $date = "20 May 2023";
+    // $namattd = "Zaky Muhammad Ibrahim";
     ?>
     <div class="container">
-        <img class="logo" src="img/logosertif.png" alt="Logo">
+        <?php if (!empty($article['logo'])) { ?>
+            <img class="logo" src="../../img/<?= $article['logo'] ?>" alt="Logo">
+        <?php } else { ?>
+            <img class="logo" src="../../img/logosertif.png" alt="Default Logo">
+        <?php } ?>
         <div class="title">Certificate of Completion</div>
         <div class="subtitle">Awarded to</div>
-        <div class="name"><?= $nama ?></div>
+        <div class="name"><?= $profile['nama'] ?></div>
         <hr class="line">
         <!-- <img class="signature" src="img/TTD.png" alt="Signature">
-        <div class="signature-name"><?= $namattd ?></div> -->
-        <div class="subtitle">For successfully completing <?= $judul ?> event as <?= $role ?></div>
-        <!-- <div class="title"><?= $judul ?></div> -->
-        <div class="date"><?= $date ?></div>
+    <div class="signature-name"><?= $namattd ?></div> -->
+        <div class="subtitle">For successfully completing <?= $article['nama'] ?> event as <?= $role ?></div>
+        <div class="date"><?= $endDate ?></div>
     </div>
+
 </body>
 <script type="text/javascript">
+    // window.print();
+
+    // Trigger the print function
     window.print();
+    window.onafterprint = function() {
+        window.close();
+    };
 </script>
 
 </html>

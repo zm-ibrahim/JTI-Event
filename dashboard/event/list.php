@@ -87,9 +87,13 @@ if (isset($_SESSION['flash_message'])) { ?>
                                 <a href="view.php?kid=<?= $article['id'] ?>" class="badge bg-info">
                                     <i data-feather="eye"></i>
                                 </a>
-                                <a href="sertif.php?kid=<?= $article['id'] ?>&usid=<?= $userid ?>" class="badge bg-warning">
+                                <!-- <a href="#" class="badge bg-warning" onclick="printCustomPage(<?= $article['id'] ?>, <?= $userid ?>)">
+                                    <i data-feather="printer"></i>
+                                </a> -->
+                                <a href="sertif.php?kid=<?= $article['id'] ?>&usid=<?= $userid ?>" target="_blank" class="badge bg-warning">
                                     <i data-feather="printer"></i>
                                 </a>
+
                             <?php
                             }
                             ?>
@@ -138,4 +142,36 @@ if ((isset($role) && $role == 2)) {
 </main>
 </div>
 
+<!-- <script>
+    function printCustomPage(articleId, userId) {
+        var printWindow = window.open('sertif.php?kid=' + articleId + '&usid=' + userId, '_blank');
+        printWindow.document.open();
+
+        // Set the print styles
+        printWindow.document.write(`
+    <style>
+      @media print {
+        @page {
+          size: landscape;
+        }
+        body {
+          background: url('path/to/background-image.jpg') no-repeat center center fixed;
+          background-size: cover;
+        }
+        header, footer {
+          display: none;
+        }
+      }
+    </style>
+  `);
+
+        printWindow.document.close();
+
+        // Trigger the print function
+        printWindow.print();
+        printWindow.onafterprint = function() {
+            printWindow.close();
+        };
+    }
+</script> -->
 <?php include '../templates/footer.php'; ?>

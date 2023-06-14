@@ -30,7 +30,7 @@ if ($role == 0) {
         </div>
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name" value="<?= $profile['nama'] ?>" name="name" required>
+            <input type="text" class="form-control" id="name" value="<?= $profile['nama'] ?>" name="name" placeholder="Isi Nama dengan benar karena akan dicantumkan di Sertifikat" required>
         </div>
         <div class="mb-3">
             <label for="alamat" class="form-label">Alamat</label>
