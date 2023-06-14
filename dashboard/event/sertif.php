@@ -146,7 +146,7 @@ $endDate = $end->format('Y-m-d');
     ?>
     <div class="container">
         <?php if (!empty($article['logo'])) { ?>
-            <img class="logo" src="../../img/<?= $article['logo'] ?>" alt="Logo">
+            <img class="logo" src="<?= $article['logo'] ?>" alt="Logo">
         <?php } else { ?>
             <img class="logo" src="../../img/logosertif.png" alt="Default Logo">
         <?php } ?>
