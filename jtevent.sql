@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 26, 2023 at 09:56 AM
+-- Generation Time: Jun 14, 2023 at 03:03 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `kegiatan` (
   `id` int(11) NOT NULL,
   `nama` varchar(255) NOT NULL,
-  `konten` varchar(255) NOT NULL,
+  `konten` text NOT NULL,
   `img` varchar(255) NOT NULL,
   `logo` varchar(255) NOT NULL,
   `waktu_mulai` datetime NOT NULL,
@@ -42,8 +42,14 @@ CREATE TABLE `kegiatan` (
 --
 
 INSERT INTO `kegiatan` (`id`, `nama`, `konten`, `img`, `logo`, `waktu_mulai`, `waktu_akhir`) VALUES
-(1, 'gjhghjghj', 'hgfhgf', '', '', '2023-05-25 14:10:22', '2023-05-25 14:10:22'),
-(2, 'sdadada', '12121211', '', '', '2023-05-25 14:10:22', '2023-05-25 14:10:22');
+(24, 'Tes', '<div>asda sada asda asda asda sdasd asda asdas asdad adsdadsa sadasdsa asdsadas dasasdasd adsad asdasdasd daadsad asdasdasd adsadsasd daasdasd adssadasd asdsad asdsadsad asdasd addsaasd asdasdasd sad asda sda sda sdsa dsad asd as d sad asd as dsaasdad asda s dadsas asasdasd das sda</div>', '/github/JTI-Event/img/event/img-1580010559.png', '', '2023-06-09 11:36:00', '2023-06-10 14:36:00'),
+(25, 'Tes', '<div>adaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsaadaadsdadsasadsa</div>', '', '', '2023-06-08 10:37:00', '2023-06-09 12:37:00'),
+(27, 'TESSTSTST', '<div>asdadas asd ad as a asdadas a adasadsasdasd as aa&nbsp; a sddsasadsaasddsa a daads as a a ads dsadsa sasadsda dsasad&nbsp; asads sad assad asd sadsaas sa saddsasad a dsas asdsdaasdadsasd&nbsp; da adsasdsaddassa s sdasdaasdsdasasad assdasdaasdsadasd&nbsp; saasdsadsadasdad&nbsp; sasdaasdasdsad sdasdasdadsasdad sadasadsadssadadsasdasd sdaasdsadasassad asdasdasdasdasdasdsad sadasdasdads</div>', '/github/JTI-Event/img/event/img-8493812.jpeg', '', '2023-06-08 10:58:00', '2023-06-08 12:59:00'),
+(28, 'ababab', '', '/github/JTI-Event/img/event/img-1403932154.jpeg', '', '2023-06-08 15:01:00', '2023-06-09 16:01:00'),
+(29, 'SPARTA', '<div>Orang apa yang bisa berenang tanpa bergerak. dia pasti bukan orang</div>', '/github/JTI-Event/img/event/img1284726963.png', '', '2023-06-14 13:38:00', '2023-06-21 20:38:00'),
+(30, 'Ended', '<div>laosdjds asd sda sadasd asd asd sad sda as dsa sad asd</div>', '', '', '2023-06-13 13:39:00', '2023-06-14 13:39:00'),
+(31, 'Ended Jauhh', '<div>saasd adaadssd ddsa asasds asaddsa ass asdasadsd sa asdsda sdad dsa sdasda sasadsasddsa dsa&nbsp;</div>', '', '', '2023-06-09 14:49:00', '2023-06-11 16:49:00'),
+(32, 'Started Jauh', '<div>sda d saads dasd saadsdasasdsadsda sad sa dasddsa sda</div>', '', '', '2023-06-08 15:50:00', '2023-06-15 17:50:00');
 
 -- --------------------------------------------------------
 
@@ -61,7 +67,7 @@ CREATE TABLE `kegiatan_user` (
 --
 
 INSERT INTO `kegiatan_user` (`kegiatan_id`, `user_id`) VALUES
-(1, 646028614);
+(24, -1835373924);
 
 -- --------------------------------------------------------
 
@@ -112,6 +118,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `nama`, `alamat`, `email`, `password`, `role`) VALUES
+(-1835373924, 'peserta', 'peserta', 'Darjo', 'ucok@polinema.ac.id', '$2y$10$fkyTndnrTNb7OeUOCtZevOk0xuWFQYL9Vc7zSB39.UnpnTeB.DnfK', 0),
 (646028614, 'user', 'user12', 'alamat12', '1email@email.com', '$2y$10$zYta/6LPnw/k3uoXmXyGIO3AH6RiC6tJmHBG53z5nRAvIIOXvCZFm', 2);
 
 --
@@ -163,7 +170,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `kegiatan`
 --
 ALTER TABLE `kegiatan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `penilai`
