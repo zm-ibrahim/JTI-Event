@@ -87,6 +87,9 @@ if (isset($_SESSION['flash_message'])) { ?>
                                 <a href="view.php?kid=<?= $article['id'] ?>" class="badge bg-info">
                                     <i data-feather="eye"></i>
                                 </a>
+                                <a href="sertif.php?kid=<?= $article['id'] ?>&usid=<?= $userid ?>" class="badge bg-warning">
+                                    <i data-feather="printer"></i>
+                                </a>
                             <?php
                             }
                             ?>

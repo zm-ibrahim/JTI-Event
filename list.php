@@ -2,6 +2,14 @@
 include 'templates/header.php';
 ?>
 <style>
+    .card .card-hover img {
+        height: 170px;
+        /* Adjust the desired height */
+        width: 100%;
+        /* Adjust the desired width */
+        object-fit: cover;
+    }
+
     .card-started {
         border: 2px solid orange;
     }
@@ -74,7 +82,7 @@ include 'templates/header.php';
                     <div class="card border-0 bg_green <?= $cardClass ?>">
                         <div class="card card_hover">
                             <?php if ($article['img'] != '') { ?>
-                                <img src="<?= $article['img'] ?>" class="self-align-center">
+                                <img src="<?= $article['img'] ?>">
                             <?php } else { ?>
                                 <img src="img/nopicture.jpg" style="max-height: 170px;" class="align-self-center">
                             <?php } ?>

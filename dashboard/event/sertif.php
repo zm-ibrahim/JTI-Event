@@ -1,3 +1,11 @@
+<?php
+$kid = $_GET['kid'];
+$usid = $_GET['usid'];
+$query = "SELECT * FROM user WHERE id=$id LIMIT 1";
+$query = "SELECT nama, img, logo, konten, waktu_mulai, waktu_akhir FROM kegiatan WHERE id=$kid LIMIT 1";
+$article = mysqli_query($connect, $query);
+$article = $article->fetch_assoc();
+?>
 <!DOCTYPE html>
 <html>
 

@@ -62,7 +62,7 @@ if (isset($_SESSION['username'])) {
                     </ul>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item me-lg-3">
-                            <form class="d-flex" role="search" action="index.php" method="GET">
+                            <form class="d-flex" role="search" action="list.php" method="GET">
                                 <?php
                                 if (isset($_GET['c_id']) && isset($_GET['c_name'])) {
                                 ?>
