@@ -33,8 +33,8 @@ if (isset($_POST['submit'])) {
             $image = baseURL . 'img/event/' . $image;
 
             // Logo Check
-            if ($_FILES['logo']['name'] != '') {
-               $logo = "logo" . rand(-2147483648, 2147483647) . "." . pathinfo($_FILES['logo']['name'], PATHINFO_EXTENSION);
+            if ($_FILES['logo']['tmp_name'] != '') {
+               $logo = "logo" . rand(-2147483648, 2147483647) . "." . pathinfo($_FILES['logo']['tmp_name'], PATHINFO_EXTENSION);
                $logo_dir = "../../img/sertif/";
                $logo_file = $logo_dir . $logo;
 
