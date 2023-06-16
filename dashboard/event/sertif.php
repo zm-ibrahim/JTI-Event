@@ -138,11 +138,6 @@ $endDate = $end->format('Y-m-d');
 
 <body>
     <?php
-    // $nama = "Lukman Hakim";
-    // $role = "Participant";
-    // $judul = "Latihan UTBK";
-    // $date = "20 May 2023";
-    // $namattd = "Zaky Muhammad Ibrahim";
     ?>
     <div class="container">
         <?php if (!empty($article['logo'])) { ?>

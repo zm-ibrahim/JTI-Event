@@ -29,7 +29,7 @@ if (isset($_POST['submit'])) {
       $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
       if (in_array($imageFileType, $extensions_arr)) {
          // Upload image file
-         if (move_uploaded_file($_FILES['img']['tmp_name'], $target_file)) {
+         if (move_uploaded_file($_FILES['img']['name'], $target_file)) {
             $image = baseURL . 'img/event/' . $image;
 
             // Logo Check

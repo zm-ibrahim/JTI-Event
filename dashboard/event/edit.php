@@ -30,13 +30,13 @@ $end = $event['waktu_akhir'];
         </div>
         <div class="mb-3">
             <label for="img" class="form-label">Image</label>
-            <input name="img" class="form-control" type="file" id="img" accept="image/png, image/gif, image/jpeg, image/webp">
+            <input name="img" class="form-control" type="file" id="img" accept="image/png, image/gif, image/jpeg, image/jpg, image/webp">
             <!-- image preview -->
             <img class="img-fluid col-sm-9 mt-3 img-preview" src="<?php echo $event['img']; ?>" alt="">
         </div>
         <div class="mb-3">
             <label for="logo" class="form-label">Logo Sertif</label>
-            <input name="logo" class="form-control" type="file" id="logo" accept="image/png, image/gif, image/jpeg, image/webp">
+            <input name="logo" class="form-control" type="file" id="logo" accept="image/png, image/gif, image/jpeg, image/jpg, image/webp">
             <!-- image preview -->
             <img class="img-fluid col-sm-9 mt-3 logo-preview" src="<?php echo $event['logo']; ?>" alt="">
         </div>
