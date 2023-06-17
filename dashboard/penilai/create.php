@@ -10,7 +10,7 @@
                 <?php
                 // Call connection
                 include "../../connect.php";
-                $sql = "SELECT * FROM `user`";
+                $sql = "SELECT * FROM `user` WHERE role=0";
                 $all_users = mysqli_query($connect, $sql);
                 // using this loop to take the data
                 // $all_categories variable means all of them wkwk

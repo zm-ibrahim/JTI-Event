@@ -20,8 +20,16 @@ if ($role == 2) {
         }
         // Query
         $sql = "INSERT INTO penilai (kegiatan, nama, alamat, email) VALUES ('$kegiatan', '$nama', '$alamat', '$email')";
-        if (mysqli_query($connect, $sql)) $_SESSION['flash_message'] = ['Penilai has been added!', 'success'];
-        else $_SESSION['flash_message'] = ['Cant add penilai !', 'danger'];
+        if (mysqli_query($connect, $sql)) {
+            $sql = "UPDATE user SET role=1 WHERE id=$user";
+            if (mysqli_query($connect, $sql)) {
+                $_SESSION['flash_message'] = ['Penilai has been added!', 'success'];
+            } else {
+                $_SESSION['flash_message'] = ['Cant assign new role!', 'danger'];
+            }
+        } else {
+            $_SESSION['flash_message'] = ['Cant add penilai !', 'danger'];
+        }
 
         mysqli_close($connect);
         header('Location: ../penilai/list.php');
