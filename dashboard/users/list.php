@@ -3,7 +3,7 @@ include '../templates/header.php';
 include '../../connect.php';
 
 // Are you an admin?
-if ($role == 1) {
+if ($role == 2) {
 ?>
 
     <h1>User List</h1>
@@ -39,7 +39,7 @@ if ($role == 1) {
                 $next = $halaman + 1;
 
                 // Get actual rows of data
-                $sql = "SELECT id, username, email FROM user WHERE isAdmin ='0'";
+                $sql = "SELECT id, username, email FROM user WHERE role !='2'";
                 $data = mysqli_query($connect, $sql);
                 $jumlah_data = mysqli_num_rows($data);
                 $total_halaman = ceil($jumlah_data / $batas);
@@ -59,12 +59,8 @@ if ($role == 1) {
                             <td><?= $user['username'] ?></td>
                             <td><?= $user['email'] ?></td>
                             <td>
-                                <!-- a_id means article_id -->
-                                <a href="viewArticle.php?u_id=<?= $user['id'] ?>&username=<?= $user['username'] ?>" class="badge bg-info">
+                                <a href="view.php?user_id=<?= $user['id'] ?>&username=<?= $user['username'] ?>" class="badge bg-info">
                                     <i data-feather="eye"></i>
-                                </a>
-                                <a href="deleteUser.php?u_id=<?= $user['id'] ?>" class="badge bg-danger">
-                                    <i data-feather="trash-2"></i>
                                 </a>
                             </td>
                         </tr>

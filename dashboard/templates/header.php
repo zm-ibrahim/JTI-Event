@@ -75,12 +75,12 @@ $id = $_SESSION['user_id'];
                                     Penilai
                                 </a>
                             </li>
-                            <!-- <li>
+                            <li>
                                 <a href="<?= baseURL . 'dashboard/users/list.php' ?>" class="nav-link text-white <?= str_contains($_SERVER['SCRIPT_NAME'], 'dashboard/users') ? 'active' : '' ?>">
                                     <i data-feather="users" class="me-3"></i>
                                     Users
                                 </a>
-                            </li> -->
+                            </li>
                         <?php
                         }
                         // is Penilai ?
