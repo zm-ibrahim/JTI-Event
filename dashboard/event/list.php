@@ -43,6 +43,10 @@ if (isset($_SESSION['flash_message'])) { ?>
             // Get actual rows of data
             if ((isset($role) && $role == 2)) {
                 $sql = "SELECT id, nama, waktu_mulai, waktu_akhir FROM kegiatan";
+            } else if ($role == 1) {
+                $sql = "SELECT k.id, k.nama, waktu_mulai, waktu_akhir FROM kegiatan k JOIN penilai p ON k.id = kegiatan 
+                WHERE p.id = (SELECT p.id FROM penilai p
+                JOIN user u ON p.nama = u.username WHERE u.id = $userid)";
             } else {
                 $sql = "SELECT k.*
                 FROM kegiatan AS k
@@ -81,15 +85,12 @@ if (isset($_SESSION['flash_message'])) { ?>
                                     <i data-feather="trash-2"></i>
                                 </a>
                             <?php
-                            } else {
+                            } else if (isset($role) && $role == 0) {
                             ?>
                                 <!-- kid means kegiatan id -->
                                 <a href="view.php?kid=<?= $article['id'] ?>" class="badge bg-info">
                                     <i data-feather="eye"></i>
                                 </a>
-                                <!-- <a href="#" class="badge bg-warning" onclick="printCustomPage(<?= $article['id'] ?>, <?= $userid ?>)">
-                                    <i data-feather="printer"></i>
-                                </a> -->
                                 <a href="sertif.php?kid=<?= $article['id'] ?>&usid=<?= $userid ?>" target="_blank" class="badge bg-warning">
                                     <i data-feather="printer"></i>
                                 </a>
