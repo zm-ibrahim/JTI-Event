@@ -33,8 +33,9 @@ include 'templates/header.php';
                 <label for="username">Username</label>
             </div>
             <div class="form-floating mb-3">
-                <input name="name" type="text" class="form-control" placeholder="Name" required>
+                <input name="name" type="text" class="form-control" placeholder="Nama" required>
                 <label for="name">Nama</label>
+                <small class="form-text">Nama akan digunakan untuk Sertifikat</small>
             </div>
             <div class="form-floating mb-3">
                 <input name="alamat" type="text" class="form-control" placeholder="Alamat" required>

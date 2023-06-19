@@ -24,6 +24,13 @@ if (isset($_SESSION['flash_message'])) { ?>
                 <th scope="col">Nama Kegiatan</th>
                 <th scope="col">Mulai</th>
                 <th scope="col">Selesai</th>
+                <?php
+                if ($role == 0) {
+                ?>
+                    <th scope="col">Skor</th>
+                <?php
+                }
+                ?>
                 <th scope="col">Action</th>
             </tr>
             <?php
@@ -48,11 +55,15 @@ if (isset($_SESSION['flash_message'])) { ?>
                 WHERE p.id = (SELECT p.id FROM penilai p
                 JOIN user u ON p.nama = u.username WHERE u.id = $userid)";
             } else {
-                $sql = "SELECT k.*
-                FROM kegiatan AS k
-                JOIN kegiatan_user AS ku ON k.id = ku.kegiatan_id WHERE user_id = $userid";
+                $sql = "SELECT k.id, k.nama AS nama, k.waktu_mulai, k.waktu_akhir, skor
+                FROM kegiatan_user ku
+                left JOIN skor ON ku.user_id  = skor.user and ku.kegiatan_id = skor.kegiatan
+                JOIN kegiatan k ON ku.kegiatan_id = k.id
+                WHERE ku.user_id = $userid";
             }
+            // var_dump($sql);
             $data = mysqli_query($connect, $sql);
+            // var_dump($data);
             $jumlah_data = mysqli_num_rows($data);
             $total_halaman = ceil($jumlah_data / $batas);
 
@@ -70,6 +81,13 @@ if (isset($_SESSION['flash_message'])) { ?>
                         <td><?= $article['nama'] ?></td>
                         <td><?= $article['waktu_mulai'] ?></td>
                         <td><?= $article['waktu_akhir'] ?></td>
+                        <?php
+                        if ($role == 0) {
+                        ?>
+                            <td><?= $article['skor'] ?? "Belum Dinilai" ?></td>
+                        <?php
+                        }
+                        ?>
                         <td>
                             <?php
                             if ((isset($role) && $role == 2)) {

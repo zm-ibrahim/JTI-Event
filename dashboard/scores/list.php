@@ -51,7 +51,8 @@ if ($role != 1) {
                 $next = $halaman + 1;
 
                 // Get actual rows of data
-                $sql = "SELECT p.id AS pid, ku.kegiatan_id AS kegid, ku.user_id AS keguid, k.nama AS namaK, u.nama AS namaP, skor, skor.id AS idskor FROM kegiatan_user ku
+                $sql = "SELECT p.id AS pid, ku.kegiatan_id AS kegid, ku.user_id AS keguid, k.nama AS namaK, u.nama AS namaP, skor, skor.id AS idskor 
+                FROM kegiatan_user ku
                 JOIN penilai p ON ku.kegiatan_id = p.kegiatan
                 JOIN kegiatan k ON ku.kegiatan_id = k.id
                 JOIN user u ON ku.user_id = u.id
