@@ -19,9 +19,24 @@ $profile = mysqli_query($connect, $sql);
 $profile = $profile->fetch_assoc();
 
 // Query untuk ambil kegiatan
-$query = "SELECT nama, img, logo, konten, waktu_mulai, waktu_akhir FROM kegiatan WHERE id=$kid LIMIT 1";
+$query = "SELECT k.nama AS nama, k.waktu_mulai, k.waktu_akhir, skor
+FROM kegiatan_user ku
+left JOIN skor ON ku.user_id  = skor.user and ku.kegiatan_id = skor.kegiatan
+JOIN kegiatan k ON ku.kegiatan_id = k.id
+WHERE ku.kegiatan_id = $kid and ku.user_id = $usid";
 $article = mysqli_query($connect, $query);
 $article = $article->fetch_assoc();
+
+// query ambil nilai tertinggi
+$tinggi = "SELECT * FROM skor WHERE kegiatan = $kid ORDER BY skor DESC LIMIT 1";
+$tuinggi = mysqli_query($connect, $tinggi);
+$tuinggi = $tuinggi->fetch_assoc();
+
+// Ambil nilai rata2
+$rata = "SELECT AVG(skor) as skor from skor where kegiatan = $kid and user = $usid";
+$rerata = mysqli_query($connect, $rata);
+$rerata = $rerata->fetch_assoc();
+
 
 $end = new DateTime($article['waktu_akhir']);
 $endDate = $end->format('Y-m-d');
@@ -151,7 +166,17 @@ $endDate = $end->format('Y-m-d');
         <hr class="line">
         <!-- <img class="signature" src="img/TTD.png" alt="Signature">
     <div class="signature-name"><?= $namattd ?></div> -->
-        <div class="subtitle">For successfully completing <?= $article['nama'] ?> event as <?= $role ?></div>
+        <div class="subtitle">For successfully completing <?= $article['nama'] ?> event as
+            <?php
+            if ($role == 'Peserta' && ($rerata['skor'] == $tuinggi['skor'])) {
+            ?>
+                Highest Score
+            <?php
+            } else {
+                echo $role;
+            }
+            ?>
+        </div>
         <div class="date"><?= $endDate ?></div>
     </div>
 

@@ -50,7 +50,8 @@ if (isset($_SESSION['flash_message'])) { ?>
                 skor.skor AS skor FROM skor
             JOIN user ON skor.user = user.id
             JOIN penilai ON skor.penilai = penilai.id
-            JOIN kegiatan ON skor.kegiatan = kegiatan.id";
+            JOIN kegiatan ON skor.kegiatan = kegiatan.id
+            WHERE penilai.id = $pid";
         $articles = mysqli_query($connect, $sql);
 
         $jumlah_data = mysqli_num_rows($articles);

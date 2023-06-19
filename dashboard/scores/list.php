@@ -51,14 +51,16 @@ if ($role != 1) {
                 $next = $halaman + 1;
 
                 // Get actual rows of data
-                $sql = "SELECT p.id AS pid, ku.kegiatan_id AS kegid, ku.user_id AS keguid, k.nama AS namaK, u.nama AS namaP, skor, skor.id AS idskor 
-                FROM kegiatan_user ku
-                JOIN penilai p ON ku.kegiatan_id = p.kegiatan
-                JOIN kegiatan k ON ku.kegiatan_id = k.id
-                JOIN user u ON ku.user_id = u.id
-                LEFT JOIN skor ON ku.user_id = skor.user
-                WHERE p.id = (SELECT p.id FROM penilai p
-                JOIN user u ON p.nama = u.username WHERE u.id = $userid)";
+                $sql = "SELECT p.id AS pid, ku.kegiatan_id AS kegid, ku.user_id AS keguid, k.nama AS namaK, u.nama AS namaP,
+                (select skor from skor
+                where penilai = (SELECT p.id FROM penilai p JOIN user u ON p.nama = u.username WHERE u.id = pid) and skor.user = ku.user_id) as skor,
+                (select id from skor where ku.user_id = skor.user and skor.penilai = pid) as idskor
+                                FROM kegiatan_user ku
+                                JOIN penilai p ON ku.kegiatan_id = p.kegiatan
+                                JOIN kegiatan k ON ku.kegiatan_id = k.id
+                                JOIN user u ON ku.user_id = u.id
+                                WHERE p.id = (SELECT p.id FROM penilai p
+                                JOIN user u ON p.nama = u.username WHERE u.id = $userid)";
 
                 $data = mysqli_query($connect, $sql);
                 $jumlah_data = mysqli_num_rows($data);
