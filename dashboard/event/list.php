@@ -46,7 +46,7 @@ if (isset($_SESSION['flash_message'])) { ?>
             } else {
                 $sql = "SELECT k.*
                 FROM kegiatan AS k
-                JOIN kegiatan_user AS ku ON k.id = ku.kegiatan_id";
+                JOIN kegiatan_user AS ku ON k.id = ku.kegiatan_id WHERE user_id = $userid";
             }
             $data = mysqli_query($connect, $sql);
             $jumlah_data = mysqli_num_rows($data);

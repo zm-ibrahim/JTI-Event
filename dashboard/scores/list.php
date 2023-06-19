@@ -3,8 +3,9 @@ include '../templates/header.php';
 include '../../connect.php';
 // var_dump($query);
 $userid = $_SESSION['user_id'];
-// Are you an admin?
-if ($role != 2) {
+$username = $_SESSION['username'];
+// Are you penilai ?
+if ($role != 1) {
 ?>
     <h3>Oopss.. Looks like something went wrong</h3>
     <br>Click here to <a href='../index.php'>Go Back</a>
@@ -13,7 +14,8 @@ if ($role != 2) {
 } else {
 ?>
 
-    <h1>Scorer List</h1>
+    <h1>Score List</h1>
+    <p>By <?= $username; ?> </p>
     <hr>
     <?php
     if (isset($_SESSION['flash_message'])) { ?>
@@ -30,9 +32,8 @@ if ($role != 2) {
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">Nama Kegiatan</th>
-                    <th scope="col">Waktu Mulai</th>
-                    <th scope="col">Waktu Akhir</th>
-                    <th scope="col">Nama Penilai</th>
+                    <th scope="col">Nama Peserta</th>
+                    <th scope="col">Skor</th>
                     <th scope="col">Action</th>
                 </tr>
                 <?php
@@ -50,9 +51,14 @@ if ($role != 2) {
                 $next = $halaman + 1;
 
                 // Get actual rows of data
-                $sql = "SELECT k.id AS kid, k.nama AS namaK, k.waktu_mulai AS mulai, k.waktu_akhir AS selesai, p.id AS pid, p.nama AS namaP, p.kegiatan
-                FROM kegiatan AS k
-                JOIN penilai AS p ON k.id = p.kegiatan";
+                $sql = "SELECT p.id AS pid, ku.kegiatan_id AS kegid, ku.user_id AS keguid, k.nama AS namaK, u.nama AS namaP, skor, skor.id AS idskor FROM kegiatan_user ku
+                JOIN penilai p ON ku.kegiatan_id = p.kegiatan
+                JOIN kegiatan k ON ku.kegiatan_id = k.id
+                JOIN user u ON ku.user_id = u.id
+                LEFT JOIN skor ON ku.user_id = skor.user
+                WHERE p.id = (SELECT p.id FROM penilai p
+                JOIN user u ON p.nama = u.username WHERE u.id = $userid)";
+
                 $data = mysqli_query($connect, $sql);
                 $jumlah_data = mysqli_num_rows($data);
                 $total_halaman = ceil($jumlah_data / $batas);
@@ -69,17 +75,25 @@ if ($role != 2) {
                         <tr>
                             <th scope="row"><?= $i ?></th>
                             <td><?= $article['namaK'] ?></td>
-                            <td><?= $article['mulai'] ?></td>
-                            <td><?= $article['selesai'] ?></td>
                             <td><?= $article['namaP'] ?></td>
+                            <td><?= $article['skor'] ?? "Belum Dinilai" ?></td>
                             <td>
-                                <!-- kid means kegiatan id -->
-                                <a href="viewScore.php?pid=<?= $article['pid'] ?>&pname=<?= $article['namaP'] ?>" class="badge bg-info">
-                                    <i data-feather="eye"></i>
-                                </a>
-                                <a href="../process/deleteScorer.php?pid=<?= $article['pid'] ?>" class="badge bg-danger">
-                                    <i data-feather="trash-2"></i>
-                                </a>
+                                <?php
+                                if ($article['idskor']) {
+                                ?>
+                                    <a href="edit.php?idskor=<?= $article['idskor'] ?>" class="badge bg-danger">
+                                        <i data-feather="edit"></i>
+                                    </a>
+                                <?php
+                                } else {
+                                ?>
+                                    <a href="add.php?kegid=<?= $article['kegid'] ?>&keguid=<?= $article['keguid'] ?>&pid=<?= $article['pid'] ?>" class="badge bg-dark">
+                                        <i data-feather="plus"></i>
+                                    </a>
+                                <?php
+                                }
+                                ?>
+
                             </td>
                         </tr>
                 <?php

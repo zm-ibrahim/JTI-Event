@@ -66,12 +66,30 @@ $id = $_SESSION['user_id'];
                             </a>
                         </li>
                         <?php
+                        // Is Admin ?
                         if ($role == 2) {
                         ?>
                             <li>
                                 <a href="<?= baseURL . 'dashboard/penilai/list.php' ?>" class="nav-link text-white <?= str_contains($_SERVER['SCRIPT_NAME'], 'dashboard/category') ? 'active' : '' ?>">
                                     <i data-feather="folder" class="me-3"></i>
                                     Penilai
+                                </a>
+                            </li>
+                            <!-- <li>
+                                <a href="<?= baseURL . 'dashboard/users/list.php' ?>" class="nav-link text-white <?= str_contains($_SERVER['SCRIPT_NAME'], 'dashboard/users') ? 'active' : '' ?>">
+                                    <i data-feather="users" class="me-3"></i>
+                                    Users
+                                </a>
+                            </li> -->
+                        <?php
+                        }
+                        // is Penilai ?
+                        if ($role == 1) {
+                        ?>
+                            <li>
+                                <a href="<?= baseURL . 'dashboard/scores/list.php' ?>" class="nav-link text-white <?= str_contains($_SERVER['SCRIPT_NAME'], 'dashboard/category') ? 'active' : '' ?>">
+                                    <i data-feather="folder" class="me-3"></i>
+                                    Scores
                                 </a>
                             </li>
                             <!-- <li>
