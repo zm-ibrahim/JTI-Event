@@ -21,6 +21,11 @@ if (isset($_SESSION['flash_message'])) { ?>
         <h3>
             <q><?= $quotes ?></q>
         </h3>
+        <br>
+        <h3>
+            <a class="btn btn-dark" href="../list.php">List Kegiatan</a>
+        </h3>
+
     </div>
 </div>
 

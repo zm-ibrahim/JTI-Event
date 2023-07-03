@@ -29,7 +29,7 @@ include 'templates/header.php';
 </style>
 
 <main class="container mt-4">
-    <h1 class="mb-4 text-center">Semua Kegiatan</h1>
+    <h2 class="mb-4 text-center">Kegiatan yang Tersedia</h2>
     <div class="row">
         <?php
         // Get current date and time
@@ -132,7 +132,7 @@ include 'templates/header.php';
         <?php
         } else {
         ?>
-            <p class="text-center">Nothing to Found</p>
+            <p class="text-center">Tidak ada yang ditemukan</p>
         <?php
         }
         ?>

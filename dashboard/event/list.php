@@ -130,7 +130,7 @@ if (isset($_SESSION['flash_message'])) { ?>
 <?php
 if ((isset($role) && $role == 2)) {
 ?>
-    <a class="btn btn-success" href="create.php">Create New Article</a>
+    <a class="btn btn-success" href="create.php">Create New</a>
 <?php
 }
 ?>
