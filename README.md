@@ -1,4 +1,12 @@
-dibuat untuk matkul proyek 1 bahasa : php (native)
+# JTI-Event | Pengelola Event Kompetisi
+
+## Fitur Utama
+- Kompetisi
+- NIlai
+- Peserta
+- Sertifikat
+
+### dibuat untuk matkul proyek 1 dengan bahasa pemrogramman php (native)
 
 anggota kelompok:
 
